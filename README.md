@@ -23,7 +23,7 @@
 
 ## feature construction
 
-* 加入小時指標，其值為 sin 和 cos 函數的總和，以 24 小時為一循環，藉此讓模型知道 23 點比 4 點更接近午夜 12 點。
+* 加入小時指標，分別為 sin 和 cos 函數，以 24 小時為一循環，藉此讓模型知道 23 點比 4 點更接近 0 點。
 <p float="center" align="center">
 <img src="https://drive.google.com/uc?export=view&id=1RWOcdcGHSeLRIMBWvMW5GYCMaB-BWB2o" alt="hourly signal">
 </p>
@@ -36,7 +36,7 @@
 
 ## model training
 
-* 使用 LSTM 模型進行多步預測，input 的 3 個特徵值分別為：電力差值，小時標記、月份標記。
+* 使用 LSTM 模型進行多步預測，input 的 5 個特徵值分別為：電力差值，小時 cos 標記、小時 sin 標記、月份 cos 標記、月份 sin 標記。
 <p float="center" align="center">
 <img src="https://drive.google.com/uc?export=view&id=1Dh2Z0loshlj_EaehICi9e-6hbbOXJQMJ" alt="model structure">
 </p>

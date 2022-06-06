@@ -53,20 +53,18 @@ if __name__ == "__main__":
         df_input['month'] = [timestamp.month for timestamp in df_input['time']]
 
         # Creating the cyclical daily feature
-        list_cos_hourly = [np.cos(x * (2 * np.pi / 24)) for x in df_input['hour']]
-        list_sin_hourly = [np.sin(x * (2 * np.pi / 24)) for x in df_input['hour']]
-        df_input['hour_index'] = list(map(lambda x, y: x + y, list_cos_hourly, list_sin_hourly))
+        df_input['hour_cos_index'] = [np.cos(x * (2 * np.pi / 24)) for x in df_input['hour']]
+        df_input['hour_sin_index'] = [np.sin(x * (2 * np.pi / 24)) for x in df_input['hour']]
 
         # Creating the cyclical yearly feature
         sec_in_a_year = 365.25 * 24 * 60 * 60
-        list_cos_monthly = [np.cos(x.timestamp() * (2 * np.pi / sec_in_a_year)) for x in df_input['time']]
-        list_sin_monthly = [np.sin(x.timestamp() * (2 * np.pi / sec_in_a_year)) for x in df_input['time']]
-        df_input['month_index'] = list(map(lambda x, y: x + y, list_cos_monthly, list_sin_monthly))
+        df_input['month_cos_index'] = [np.cos(x.timestamp() * (2 * np.pi / sec_in_a_year)) for x in df_input['time']]
+        df_input['month_sin_index'] = [np.sin(x.timestamp() * (2 * np.pi / sec_in_a_year)) for x in df_input['time']]
 
         df_input.drop(['time', 'hour',	'month'], axis=1, inplace=True)
         df_input['diff'] = normalize( np.array(df_input['diff']).reshape(-1, 1) )
 
-        pred = model.predict(df_input.to_numpy().reshape(-1, 168, 3))
+        pred = model.predict(df_input.to_numpy().reshape(-1, 168, 5))
         pred = inverse_normalize(pred).squeeze()
 
         data = []
